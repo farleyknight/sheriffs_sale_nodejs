@@ -12,20 +12,22 @@
       ].join(""));
 
       data.forEach(function(property) {
-        var lat    = parseFloat(property["property"]["latitude"]);
-        var lng    = parseFloat(property["property"]["longitude"]);
-        var price  = property["property"]["price"];
-        var add    = property["property"]["address"];
+        var lat    = parseFloat(property.latitude);
+        var lng    = parseFloat(property.longitude);
+        var price  = property.price;
+        var add    = property.address;
 
-        var marker = L.marker([lat, lng]).addTo(map).bindPopup(price + "<br/>" + add);
-        properties.push(marker);
+        if (lat && lng) {
+          var marker = L.marker([lat, lng]).addTo(map).bindPopup(price + "<br/>" + add);
+          properties.push(marker);
 
-        $("table#properties").append([
-          "<tr>",
-            "<td>" + add + "</td>",
-            "<td>" + price + "</td>",
-          "</tr>"
-        ].join(""));
+          $("table#properties").append([
+            "<tr>",
+              "<td>" + add + "</td>",
+              "<td>" + price + "</td>",
+            "</tr>"
+          ].join(""));
+        }
       });
 
       if (map.currentLayer != null)
