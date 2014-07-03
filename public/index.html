@@ -1,0 +1,56 @@
+<html>
+  <head>
+    <!-- jQuery -->
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+
+    <!-- Underscore -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+    <!-- Formstone Stepper -->
+		<link href="http://formstone.it/components/Stepper/jquery.fs.stepper.css" rel="stylesheet" type="text/css" media="all" />
+		<script src="http://formstone.it/components/Stepper/jquery.fs.stepper.js"></script>
+
+    <style>
+      .stepper {
+        width: 75px;
+      }
+    </style>
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+
+    <!-- Local -->
+    <script src="properties.js"></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8" id="map" style="height: 400px;"></div>
+        <div class="col-md-4" id="map-controls" style="margin-top: 50px;">
+          <div>
+            Max price:
+            <input value="5" type="number" min="0" max="20" id="max_price" name="max_price" />
+          </div>
+
+          <div>
+            Marker Count:
+            <input value="200" type="number" min="0" id="count" name="max_price" />
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-8">
+          <table class="table" id="properties">
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

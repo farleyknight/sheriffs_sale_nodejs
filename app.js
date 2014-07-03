@@ -8,10 +8,9 @@ app.use(function(req, res, next){
   next();
 });
 
-app.get('/', function(req, res){
-  res.send('hello world');
-});
-
+// app.get('/', function(req, res){
+//   res.send('hello world');
+// });
 
 app.use(express.static(__dirname + '/public'));
 
