@@ -29,25 +29,30 @@ app.use(function(req, res, next){
   next();
 });
 
-var haversineSQL = function(distance, latitude, longitude, lat_attr, lng_attr) {
-  var earth = 3956; // Radius of earth in miles
 
-  var sql = [
-    "(? * 2 * ASIN(SQRT(" +
-      "POWER(SIN((? - " + lat_attr + ") * PI() / 180 / 2), 2) + " +
-      "COS(? * PI() / 180) * COS(" + lat_attr + " * PI() / 180) * " +
-      "POWER(SIN((? - " + lng_attr + ") * PI() / 180 / 2), 2)" +
-      "))) BETWEEN 0 AND ?",
-    earth, latitude, latitude, longitude, distance
-  ];
+var haversineSQL = function(distance, latitude, longitude, lat_attr, lng_attr) {
+  var earth = 3958.755864232; // Radius of earth in miles
+
+  var sql = "(" + earth + " * 2 * ASIN(SQRT(" +
+    "POWER(SIN((" + latitude + " - " + lat_attr + ") * PI() / 180 / 2), 2) + " +
+    "COS(" + latitude + " * PI() / 180) * COS(" + lat_attr + " * PI() / 180) * " +
+    "POWER(SIN((" + longitude + " - " + lng_attr + ") * PI() / 180 / 2), 2)" +
+    ")))";
 
   return sql;
 };
 
-var distanceAttr = function(latitude, longitude) {
+var distanceWhere = function(distance, latitude, longitude, lat_attr, lng_attr) {
   var earth = 3956; // Radius of earth in miles
 
-  var sql =
+  return haversineSQL(latitude, longitude, lat_attr, lng_attr)
+    + " BETWEEN 0 and " + distance;
+};
+
+var distanceAttr = function(latitude, longitude) {
+  var earth = 3958.755864232; // Radius of earth in miles
+
+  var sql = haversineSQL(latitude, longitude, 'properties.latitude', '');
     "(" + earth + " * 2 * ASIN(SQRT(" +
     "POWER(SIN((" + latitude +" - properties.latitude) * PI() / 180 / 2), 2) + " +
     "COS(" + latitude + " * PI() / 180) * COS(properties.latitude * PI() / 180) * " +
@@ -55,7 +60,7 @@ var distanceAttr = function(latitude, longitude) {
     "))) as distance";
 
   return Sequelize.literal(sql);
-}
+};
 
 // Respond to /properties.json
 app.get('/properties.json', function(req, res) {
